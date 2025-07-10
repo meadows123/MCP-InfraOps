@@ -1,0 +1,8 @@
+# Add this peer configuration to your home WireGuard server
+# File: /etc/wireguard/wg0.conf (on your home Linux VM)
+
+[Peer]
+# Azure Client VM
+PublicKey = 1PNyFwBkF9+RVVD7GGt2qpxynzy7VHdH2Q/L9YZg90Y=
+AllowedIPs = 10.0.0.2/32
+PersistentKeepalive = 25

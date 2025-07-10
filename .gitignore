@@ -1,0 +1,19 @@
+# Terraform state and backup files
+*.tfstate
+*.tfstate.*
+.crash
+.terraform/
+.terraform.lock.hcl
+
+# Sensitive secrets
+secrets.auto.tfvars
+*.auto.tfvars
+*.tfvars
+
+# Ignore IDE/editor files
+*.log
+*.swp
+*.swo
+*.DS_Store
+.vscode/
+.idea/
