@@ -391,7 +391,12 @@ resource "azurerm_container_app" "github_mcp" {
   name                         = "github-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
+  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
+
+  identity {
+    type = "SystemAssigned"
+  }
 
   template {
     container {
@@ -410,6 +415,11 @@ resource "azurerm_container_app" "github_mcp" {
         value = "3000"
       }
     }
+  }
+
+  registry {
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -432,7 +442,12 @@ resource "azurerm_container_app" "pyats_mcp" {
   name                         = "pyats-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
+  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
+
+    identity {
+    type = "SystemAssigned"
+  }
 
   template {
     container {
@@ -464,6 +479,12 @@ resource "azurerm_container_app" "pyats_mcp" {
     }
   }
 
+  registry {
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
+  }
+
+
   ingress {
     external_enabled = true
     target_port     = 3000
@@ -484,7 +505,12 @@ resource "azurerm_container_app" "servicenow_mcp" {
   name                         = "servicenow-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
+  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
+
+  identity {
+    type = "SystemAssigned"
+  }
 
   template {
     container {
@@ -515,6 +541,11 @@ resource "azurerm_container_app" "servicenow_mcp" {
     }
   }
 
+  registry {
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
+  }
+
   ingress {
     external_enabled = true
     target_port     = 3000
@@ -535,7 +566,12 @@ resource "azurerm_container_app" "email_mcp" {
   name                         = "email-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
+  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
+
+    identity {
+    type = "SystemAssigned"
+  }
 
   template {
     container {
@@ -571,6 +607,11 @@ resource "azurerm_container_app" "email_mcp" {
     }
   }
 
+  registry {
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
+  }
+
   ingress {
     external_enabled = true
     target_port     = 3000
@@ -591,7 +632,12 @@ resource "azurerm_container_app" "slack_mcp" {
   name                         = "slack-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
+  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
+
+  identity {
+    type = "SystemAssigned"
+  }
 
   template {
     container {
@@ -617,6 +663,11 @@ resource "azurerm_container_app" "slack_mcp" {
     }
   }
 
+  registry {
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
+  }
+
   ingress {
     external_enabled = true
     target_port     = 3000
@@ -636,8 +687,13 @@ resource "azurerm_container_app" "slack_mcp" {
 resource "azurerm_container_app" "google_maps_mcp" {
   name                         = "google-maps-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
-  resource_group_name          = azurerm_resource_group.main.name
+  resource_group_name          = azurerm_resource_group.main.name#
+  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
+
+    identity {
+    type = "SystemAssigned"
+  }
 
   template {
     container {
@@ -656,6 +712,11 @@ resource "azurerm_container_app" "google_maps_mcp" {
         value = "3000"
       }
     }
+  }
+
+  registry {
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -678,7 +739,12 @@ resource "azurerm_container_app" "google_search_mcp" {
   name                         = "google-search-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
+  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
+
+  identity {
+    type = "SystemAssigned"
+  }
 
   template {
     container {
@@ -697,6 +763,11 @@ resource "azurerm_container_app" "google_search_mcp" {
         value = "3000"
       }
     }
+  }
+
+  registry {
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -719,7 +790,12 @@ resource "azurerm_container_app" "filesystem_mcp" {
   name                         = "filesystem-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
+  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
+
+  identity {
+    type = "SystemAssigned"
+  }
 
   template {
     container {
@@ -733,6 +809,11 @@ resource "azurerm_container_app" "filesystem_mcp" {
         value = "3000"
       }
     }
+  }
+
+  registry {
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -755,7 +836,12 @@ resource "azurerm_container_app" "sequential_thinking_mcp" {
   name                         = "sequential-thinking-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
+  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
+
+   identity {
+    type = "SystemAssigned"
+  }
 
   template {
     container {
@@ -781,6 +867,11 @@ resource "azurerm_container_app" "sequential_thinking_mcp" {
     }
   }
 
+    registry {
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
+  }
+
   tags = {
     Environment = var.environment
     Service     = "sequential-thinking-mcp"
@@ -791,7 +882,12 @@ resource "azurerm_container_app" "quickchart_mcp" {
   name                         = "quickchart-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
+  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
+
+  identity {
+    type = "SystemAssigned"
+  }
 
   template {
     container {
@@ -805,6 +901,11 @@ resource "azurerm_container_app" "quickchart_mcp" {
         value = "3000"
       }
     }
+  }
+
+registry {
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -827,7 +928,12 @@ resource "azurerm_container_app" "excalidraw_mcp" {
   name                         = "excalidraw-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
+  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
+
+  identity {
+    type = "SystemAssigned"
+  }
 
   template {
     container {
@@ -841,6 +947,11 @@ resource "azurerm_container_app" "excalidraw_mcp" {
         value = "3000"
       }
     }
+  }
+
+registry {
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -863,7 +974,12 @@ resource "azurerm_container_app" "chatgpt_mcp" {
   name                         = "chatgpt-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
+  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
+    
+  identity {
+    type = "SystemAssigned"
+  }
 
   template {
     container {
@@ -882,6 +998,11 @@ resource "azurerm_container_app" "chatgpt_mcp" {
         value = "3000"
       }
     }
+  }
+
+  registry {
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
