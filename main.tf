@@ -4,12 +4,6 @@
 # Configure the Microsoft Azure Provider
 provider "azurerm" {
   features {}
-  
-  client_id        = var.client_id
-  client_secret    = var.client_secret
-  tenant_id        = var.tenant_id
-  subscription_id  = var.subscription_id
-
   # Use Azure CLI authentication (default)
   # If you have multiple subscriptions, you can specify one:
   # subscription_id = "your-subscription-id"
@@ -18,6 +12,27 @@ provider "azurerm" {
   use_cli = true
 }
 
+
+variable "subscription_id" {
+  type = string
+  description = "Azure subscription ID"
+}
+
+variable "client_id" {
+  type = string
+  description = "Azure client ID"
+}
+
+variable "client_secret" {
+  type      = string
+  sensitive = true
+  description = "Azure client secret"
+}
+
+variable "tenant_id" {
+  type = string
+  description = "Azure tenant ID"
+}
 # Variables
 variable "resource_group_name" {
   description = "Name of the resource group"
