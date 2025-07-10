@@ -1092,3 +1092,4 @@ resource "azurerm_network_interface_security_group_association" "wg_client_nic_n
   network_interface_id      = azurerm_network_interface.wg_client_nic.id
   network_security_group_id = azurerm_network_security_group.wg_client_nsg.id
 }
+# trigger from root
