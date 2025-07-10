@@ -228,7 +228,7 @@ resource "azurerm_container_app" "frontend" {
       name   = "frontend"
       image  = "${azurerm_container_registry.acr.login_server}/mcp-frontend:latest"
       cpu    = 0.25  # Reduced from 0.5
-      memory = "512Mi"  # Reduced from 1Gi
+      memory = "0.5Gi"  # Reduced from 1Gi
 
       env {
         name  = "VITE_API_BASE_URL"
@@ -398,7 +398,7 @@ resource "azurerm_container_app" "github_mcp" {
       name   = "github-mcp"
       image  = "${azurerm_container_registry.acr.login_server}/github-mcp:latest"
       cpu    = 0.25  # Reduced from 0.5
-      memory = "512Mi"  # Reduced from 1Gi
+      memory = "0.5Gi"  # Reduced from 1Gi
 
       env {
         name  = "GITHUB_TOKEN"
@@ -491,7 +491,7 @@ resource "azurerm_container_app" "servicenow_mcp" {
       name   = "servicenow-mcp"
       image  = "${azurerm_container_registry.acr.login_server}/servicenow-mcp:latest"
       cpu    = 0.25  # Reduced from 0.5
-      memory = "512Mi"  # Reduced from 1Gi
+      memory = "0.5Gi"  # Reduced from 1Gi
 
       env {
         name  = "SERVICENOW_URL"
@@ -542,7 +542,7 @@ resource "azurerm_container_app" "email_mcp" {
       name   = "email-mcp"
       image  = "${azurerm_container_registry.acr.login_server}/email-mcp:latest"
       cpu    = 0.25  # Reduced from 0.5
-      memory = "512Mi"  # Reduced from 1Gi
+      memory = "0.5Gi"  # Reduced from 1Gi
 
       env {
         name  = "EMAIL_HOST"
@@ -598,7 +598,7 @@ resource "azurerm_container_app" "slack_mcp" {
       name   = "slack-mcp"
       image  = "${azurerm_container_registry.acr.login_server}/slack-mcp:latest"
       cpu    = 0.25  # Reduced from 0.5
-      memory = "512Mi"  # Reduced from 1Gi
+      memory = "0.5Gi"  # Reduced from 1Gi
 
       env {
         name  = "SLACK_BOT_TOKEN"
@@ -644,7 +644,7 @@ resource "azurerm_container_app" "google_maps_mcp" {
       name   = "google-maps-mcp"
       image  = "${azurerm_container_registry.acr.login_server}/google-maps-mcp:latest"
       cpu    = 0.25  # Reduced from 0.5
-      memory = "512Mi"  # Reduced from 1Gi
+      memory = "0.5Gi"  # Reduced from 1Gi
 
       env {
         name  = "GOOGLE_MAPS_API_KEY"
@@ -685,7 +685,7 @@ resource "azurerm_container_app" "google_search_mcp" {
       name   = "google-search-mcp"
       image  = "${azurerm_container_registry.acr.login_server}/google-search-mcp:latest"
       cpu    = 0.25  # Reduced from 0.5
-      memory = "512Mi"  # Reduced from 1Gi
+      memory = "0.5Gi"  # Reduced from 1Gi
 
       env {
         name  = "GOOGLE_SEARCH_API_KEY"
@@ -726,7 +726,7 @@ resource "azurerm_container_app" "filesystem_mcp" {
       name   = "filesystem-mcp"
       image  = "${azurerm_container_registry.acr.login_server}/filesystem-mcp:latest"
       cpu    = 0.25  # Reduced from 0.5
-      memory = "512Mi"  # Reduced from 1Gi
+      memory = "0.5Gi"  # Reduced from 1Gi
 
       env {
         name  = "PORT"
@@ -762,7 +762,7 @@ resource "azurerm_container_app" "sequential_thinking_mcp" {
       name   = "sequential-thinking-mcp"
       image  = "${azurerm_container_registry.acr.login_server}/sequential-thinking-mcp:latest"
       cpu    = 0.25  # Reduced from 0.5
-      memory = "512Mi"  # Reduced from 1Gi
+      memory = "0.5Gi"  # Reduced from 1Gi
 
       env {
         name  = "PORT"
@@ -798,7 +798,7 @@ resource "azurerm_container_app" "quickchart_mcp" {
       name   = "quickchart-mcp"
       image  = "${azurerm_container_registry.acr.login_server}/quickchart-mcp:latest"
       cpu    = 0.25  # Reduced from 0.5
-      memory = "512Mi"  # Reduced from 1Gi
+      memory = "0.5Gi"  # Reduced from 1Gi
 
       env {
         name  = "PORT"
@@ -834,7 +834,7 @@ resource "azurerm_container_app" "excalidraw_mcp" {
       name   = "excalidraw-mcp"
       image  = "${azurerm_container_registry.acr.login_server}/excalidraw-mcp:latest"
       cpu    = 0.25  # Reduced from 0.5
-      memory = "512Mi"  # Reduced from 1Gi
+      memory = "0.5Gi"  # Reduced from 1Gi
 
       env {
         name  = "PORT"
@@ -870,7 +870,7 @@ resource "azurerm_container_app" "chatgpt_mcp" {
       name   = "chatgpt-mcp"
       image  = "${azurerm_container_registry.acr.login_server}/chatgpt-mcp:latest"
       cpu    = 0.25  # Reduced from 0.5
-      memory = "512Mi"  # Reduced from 1Gi
+      memory = "0.5Gi"  # Reduced from 1Gi
 
       env {
         name  = "OPENAI_API_KEY"
