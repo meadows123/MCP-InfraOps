@@ -10,6 +10,7 @@ provider "azurerm" {
   
   # Explicitly set the Azure CLI path for WSL
   use_cli = true
+  skip_provider_registration = true
 }
 
 
