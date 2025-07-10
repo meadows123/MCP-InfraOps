@@ -733,7 +733,6 @@ resource "azurerm_container_app" "google_search_mcp" {
   name                         = "google-search-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
-  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
 
   identity {
