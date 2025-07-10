@@ -1035,12 +1035,12 @@ resource "azurerm_linux_virtual_machine" "wireguard_client" {
     version   = "latest"
   }
 
-  custom_data = base64encode(templatefile("${path.module}/cloud-init-wireguard-client.yaml", {
-    wg_private_key = var.wireguard_client_private_key
-    wg_public_key  = var.wireguard_client_public_key
-    server_public_key = var.home_wireguard_server_public_key
-    server_endpoint   = var.home_wireguard_server_endpoint
-  }))
+  ##custom_data = base64encode(templatefile("${path.module}/cloud-init-wireguard-client.yaml", {
+    #wg_private_key = var.wireguard_client_private_key
+    #wg_public_key  = var.wireguard_client_public_key
+    #server_public_key = var.home_wireguard_server_public_key
+    #server_endpoint   = var.home_wireguard_server_endpoint
+  #}))
 
   tags = {
     Environment = var.environment
