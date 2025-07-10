@@ -63,30 +63,30 @@ variable "admin_username" {
 }
 
 #variable "admin_ssh_public_key" {
-  description = "SSH public key for the VM admin user"
-  type        = string
-}
+  #description = "SSH public key for the VM admin user"
+ # type        = string
+#}
 
 #variable "home_wireguard_server_public_key" {
-  description = "Public key of your home WireGuard server"
-  type        = string
-}
+  #description = "Public key of your home WireGuard server"
+ # type        = string
+#}
 
 #variable "home_wireguard_server_endpoint" {
-  description = "Public IP:Port of your home WireGuard server (e.g. 1.2.3.4:51820)"
-  type        = string
-}
+  #description = "Public IP:Port of your home WireGuard server (e.g. 1.2.3.4:51820)"
+  #type        = string
+#}
 
 #variable "wireguard_client_private_key" {
-  description = "Private key for the Azure WireGuard client VM"
-  type        = string
-  sensitive   = true
-}
+ # description = "Private key for the Azure WireGuard client VM"
+  #type        = string
+  #sensitive   = true
+#}
 
 #variable "wireguard_client_public_key" {
-  description = "Public key for the Azure WireGuard client VM"
-  type        = string
-}
+  #description = "Public key for the Azure WireGuard client VM"
+ ## type        = string
+#}
 
 # Resource Group - will be created in your tenant
 resource "azurerm_resource_group" "main" {
