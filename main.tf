@@ -391,7 +391,6 @@ resource "azurerm_container_app" "github_mcp" {
   name                         = "github-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
-  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
 
   identity {
@@ -442,7 +441,6 @@ resource "azurerm_container_app" "pyats_mcp" {
   name                         = "pyats-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
-  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
 
     identity {
@@ -505,7 +503,6 @@ resource "azurerm_container_app" "servicenow_mcp" {
   name                         = "servicenow-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
-  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
 
   identity {
@@ -566,7 +563,6 @@ resource "azurerm_container_app" "email_mcp" {
   name                         = "email-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
-  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
 
     identity {
@@ -632,7 +628,6 @@ resource "azurerm_container_app" "slack_mcp" {
   name                         = "slack-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
-  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
 
   identity {
@@ -687,8 +682,7 @@ resource "azurerm_container_app" "slack_mcp" {
 resource "azurerm_container_app" "google_maps_mcp" {
   name                         = "google-maps-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
-  resource_group_name          = azurerm_resource_group.main.name#
-  location                     = azurerm_resource_group.main.location
+  resource_group_name          = azurerm_resource_group.main.name
   revision_mode                = "Single"
 
     identity {
@@ -790,7 +784,6 @@ resource "azurerm_container_app" "filesystem_mcp" {
   name                         = "filesystem-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
-  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
 
   identity {
@@ -836,7 +829,6 @@ resource "azurerm_container_app" "sequential_thinking_mcp" {
   name                         = "sequential-thinking-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
-  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
 
    identity {
@@ -882,7 +874,6 @@ resource "azurerm_container_app" "quickchart_mcp" {
   name                         = "quickchart-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
-  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
 
   identity {
@@ -928,7 +919,6 @@ resource "azurerm_container_app" "excalidraw_mcp" {
   name                         = "excalidraw-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
-  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
 
   identity {
@@ -974,7 +964,6 @@ resource "azurerm_container_app" "chatgpt_mcp" {
   name                         = "chatgpt-mcp-server"
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.main.name
-  location                     = azurerm_resource_group.main.location
   revision_mode                = "Single"
     
   identity {
