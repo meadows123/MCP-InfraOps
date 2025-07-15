@@ -209,11 +209,11 @@ resource "azurerm_key_vault_access_policy" "terraform" {
   ]
 
   secret_permissions = [
-    "Get", "List", "Set", "Delete", "Recover"
+    "Get", "List", "Create", "Delete", "Recover"
   ]
 }
 
-#Store ACR admin password in Key Vault
+##Store ACR admin password in Key Vault
 resource "azurerm_key_vault_secret" "acr_password" {
 name         = "acr-password"
 value        = azurerm_container_registry.acr.admin_password
