@@ -213,6 +213,13 @@ resource "azurerm_key_vault_access_policy" "terraform" {
   ]
 }
 
+# Store ACR admin password in Key Vault
+resource "azurerm_key_vault_secret" "acr_password" {
+  name         = "acr-password"
+  value        = azurerm_container_registry.acr.admin_password
+  key_vault_id = azurerm_key_vault.main.id
+}
+
 # WireGuard VPN Client VM (Azure) - Replaces the container app approach
 # The VM will run WireGuard client and connect to your home server
 
@@ -417,8 +424,9 @@ resource "azurerm_container_app" "github_mcp" {
   }
 
   registry {
-    server   = "mcpautomationacr.azurecr.io"
-    identity = null  # Use system-assigned identity
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
   }
 
   ingress {
