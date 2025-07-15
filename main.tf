@@ -121,17 +121,11 @@ resource "azurerm_container_app_environment" "main" {
   # Add Key Vault for Container Apps Environment secrets
   infrastructure_subnet_id = azurerm_subnet.aci.id
   
-  # Add ACR password secret to Container App Environment
-  secrets {
-    name  = "acr-password"
-    value = azurerm_container_registry.acr.admin_password
-  }
+
   
   tags = {
     Environment = var.environment
   }
-  
-  depends_on = [azurerm_container_registry.acr]
 }
 
 
@@ -272,12 +266,6 @@ resource "azurerm_container_app" "frontend" {
     }
   }
 
-  registry {
-    server   = azurerm_container_registry.acr.login_server
-    username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
-  }
-
   ingress {
     external_enabled = true
     target_port     = 5173
@@ -292,8 +280,6 @@ resource "azurerm_container_app" "frontend" {
     Environment = var.environment
     Service     = "frontend"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 # Orchestrator Container App (minimal resources)
@@ -413,8 +399,6 @@ resource "azurerm_container_app" "orchestrator" {
     Environment = var.environment
     Service     = "orchestrator"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 # Container Apps for MCP Servers (minimal resources)
@@ -467,8 +451,6 @@ resource "azurerm_container_app" "github_mcp" {
     Environment = var.environment
     Service     = "github-mcp"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "pyats_mcp" {
@@ -532,8 +514,6 @@ resource "azurerm_container_app" "pyats_mcp" {
     Environment = var.environment
     Service     = "pyats-mcp"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "servicenow_mcp" {
@@ -595,8 +575,6 @@ resource "azurerm_container_app" "servicenow_mcp" {
     Environment = var.environment
     Service     = "servicenow-mcp"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "email_mcp" {
@@ -663,8 +641,6 @@ resource "azurerm_container_app" "email_mcp" {
     Environment = var.environment
     Service     = "email-mcp"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "slack_mcp" {
@@ -721,8 +697,6 @@ resource "azurerm_container_app" "slack_mcp" {
     Environment = var.environment
     Service     = "slack-mcp"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "google_maps_mcp" {
@@ -774,8 +748,6 @@ resource "azurerm_container_app" "google_maps_mcp" {
     Environment = var.environment
     Service     = "google-maps-mcp"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "google_search_mcp" {
@@ -827,8 +799,6 @@ resource "azurerm_container_app" "google_search_mcp" {
     Environment = var.environment
     Service     = "google-search-mcp"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "filesystem_mcp" {
@@ -875,8 +845,6 @@ resource "azurerm_container_app" "filesystem_mcp" {
     Environment = var.environment
     Service     = "filesystem-mcp"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "sequential_thinking_mcp" {
@@ -923,8 +891,6 @@ resource "azurerm_container_app" "sequential_thinking_mcp" {
     Environment = var.environment
     Service     = "sequential-thinking-mcp"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "quickchart_mcp" {
@@ -971,8 +937,6 @@ resource "azurerm_container_app" "quickchart_mcp" {
     Environment = var.environment
     Service     = "quickchart-mcp"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "excalidraw_mcp" {
@@ -1019,8 +983,6 @@ resource "azurerm_container_app" "excalidraw_mcp" {
     Environment = var.environment
     Service     = "excalidraw-mcp"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "chatgpt_mcp" {
@@ -1072,8 +1034,6 @@ resource "azurerm_container_app" "chatgpt_mcp" {
     Environment = var.environment
     Service     = "chatgpt-mcp"
   }
-  
-  depends_on = [azurerm_container_app_environment.main]
 }
 
 # API Management for MCP Server coordination
