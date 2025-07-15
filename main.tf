@@ -1087,9 +1087,9 @@ output "orchestrator_url" {
   value = "https://${azurerm_container_app.orchestrator.latest_revision_fqdn}"
 }
 
-output "wireguard_vpn_client_name" {
-  value = azurerm_linux_virtual_machine.wireguard_client.name
-}
+#output "wireguard_vpn_client_name" {
+  #value = azurerm_linux_virtual_machine.wireguard_client.name
+#}
 
 output "wireguard_vpn_client_ip" {
   value = "10.0.0.2"
@@ -1099,9 +1099,9 @@ output "wireguard_vpn_client_ip" {
   #value = azurerm_public_ip.wg_client_public_ip.ip_address
 #}
 
-output "wireguard_vpn_client_ssh_command" {
-  value = "ssh azureuser@${azurerm_public_ip.wg_client_public_ip.ip_address}"
-}
+#output "wireguard_vpn_client_ssh_command" {
+  #value = "ssh azureuser@${azurerm_public_ip.wg_client_public_ip.ip_address}"
+#}
 
 output "key_vault_uri" {
   value = azurerm_key_vault.main.vault_uri
@@ -1255,8 +1255,8 @@ resource "azurerm_network_security_group" "wg_client_nsg" {
   # Outbound is allowed by default
 }
 
-resource "azurerm_network_interface_security_group_association" "wg_client_nic_nsg" {
-  network_interface_id      = azurerm_network_interface.wg_client_nic.id
-  network_security_group_id = azurerm_network_security_group.wg_client_nsg.id
-}
+#resource "azurerm_network_interface_security_group_association" "wg_client_nic_nsg" {
+  #network_interface_id      = azurerm_network_interface.wg_client_nic.id
+  #network_security_group_id = azurerm_network_security_group.wg_client_nsg.id
+#}
 # trigger from root
