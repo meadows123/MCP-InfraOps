@@ -209,7 +209,7 @@ resource "azurerm_key_vault_access_policy" "terraform" {
   ]
 
   secret_permissions = [
-    "Get", "List", "Set", "Delete"
+    "Get", "List", "Set", "Delete", "Recover"
   ]
 }
 
