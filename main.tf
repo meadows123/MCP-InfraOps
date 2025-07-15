@@ -142,7 +142,7 @@ resource "azurerm_subnet" "aci" {
   name                 = "aci-subnet"
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes     = ["10.0.1.0/23"]
   delegation {
     name = "aci-delegation"
     service_delegation {
@@ -1053,7 +1053,7 @@ resource "azurerm_container_app" "chatgpt_mcp" {
 
 # API Management for MCP Server coordination
 resource "azurerm_api_management" "main" {
-  name                = "mcp-api-management"
+  name                = "mcp-api-management-2024"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   publisher_name      = "MCP Automation"
