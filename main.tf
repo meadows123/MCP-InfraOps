@@ -1065,9 +1065,9 @@ output "wireguard_vpn_client_ip" {
   value = "10.0.0.2"
 }
 
-output "wireguard_vpn_client_public_ip" {
-  value = azurerm_public_ip.wg_client_public_ip.ip_address
-}
+#output "wireguard_vpn_client_public_ip" {
+  #value = azurerm_public_ip.wg_client_public_ip.ip_address
+#}
 
 output "wireguard_vpn_client_ssh_command" {
   value = "ssh azureuser@${azurerm_public_ip.wg_client_public_ip.ip_address}"
@@ -1130,32 +1130,32 @@ output "chatgpt_mcp_url" {
 }
 
 # WireGuard Client VM (Azure)
-resource "azurerm_linux_virtual_machine" "wireguard_client" {
-  name                = "wireguard-client-vm"
-  resource_group_name = azurerm_resource_group.main.name
-  location            = azurerm_resource_group.main.location
-  size                = "Standard_B1s"
-  admin_username      = var.admin_username
-  network_interface_ids = [azurerm_network_interface.wg_client_nic.id]
-  disable_password_authentication = true
+#resource "azurerm_linux_virtual_machine" "wireguard_client" {
+  #name                = "wireguard-client-vm"
+  #resource_group_name = azurerm_resource_group.main.name
+  #location            = azurerm_resource_group.main.location
+  #size                = "Standard_B1s"
+  #admin_username      = var.admin_username
+  #network_interface_ids = [azurerm_network_interface.wg_client_nic.id]
+  #disable_password_authentication = true
 
   #admin_ssh_key {
     #username   = var.admin_username
     #public_key = var.admin_ssh_public_key
  # }
 
-  os_disk {
-    caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
-    name                 = "wireguardclientosdisk"
-  }
+ # os_disk {
+   # caching              = "ReadWrite"
+   # storage_account_type = "Standard_LRS"
+  #  name                 = "wireguardclientosdisk"
+#  }
 
-  source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-focal"
-    sku       = "20_04-lts"
-    version   = "latest"
-  }
+#  source_image_reference {
+ #   publisher = "Canonical"
+ #   offer     = "0001-com-ubuntu-server-focal"
+ #   sku       = "20_04-lts"
+ #   version   = "latest"
+ # }
 
   ##custom_data = base64encode(templatefile("${path.module}/cloud-init-wireguard-client.yaml", {
     #wg_private_key = var.wireguard_client_private_key
@@ -1164,11 +1164,11 @@ resource "azurerm_linux_virtual_machine" "wireguard_client" {
     #server_endpoint   = var.home_wireguard_server_endpoint
   #}))
 
-  tags = {
-    Environment = var.environment
-    Service     = "wireguard-client"
-  }
-}
+  #tags = {
+  #  Environment = var.environment
+    #Service     = "wireguard-client"
+ # }
+#}
 
 resource "azurerm_virtual_network" "wg_client_vnet" {
   name                = "wireguard-client-vnet"
@@ -1184,26 +1184,26 @@ resource "azurerm_subnet" "wg_client_subnet" {
   address_prefixes     = ["10.10.1.0/24"]
 }
 
-resource "azurerm_network_interface" "wg_client_nic" {
-  name                = "wireguard-client-nic"
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
+#resource "azurerm_network_interface" "wg_client_nic" {
+ # name                = "wireguard-client-nic"
+ # location            = azurerm_resource_group.main.location
+#  resource_group_name = azurerm_resource_group.main.name
 
-  ip_configuration {
-    name                          = "internal"
-    subnet_id                     = azurerm_subnet.wg_client_subnet.id
-    private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.wg_client_public_ip.id
-  }
-}
+ # ip_configuration {
+ #   name                          = "internal"
+ #   subnet_id                     = azurerm_subnet.wg_client_subnet.id
+ #   private_ip_address_allocation = "Dynamic"
+ #   public_ip_address_id          = azurerm_public_ip.wg_client_public_ip.id
+#  }
+#}
 
-resource "azurerm_public_ip" "wg_client_public_ip" {
-  name                = "wireguard-client-public-ip"
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
-  allocation_method   = "Dynamic"
-  sku                 = "Basic"
-}
+#resource "azurerm_public_ip" "wg_client_public_ip" {
+  #name                = "wireguard-client-public-ip"
+ # location            = azurerm_resource_group.main.location
+ # resource_group_name = azurerm_resource_group.main.name
+ # allocation_method   = "Dynamic"
+  #sku                 = "Basic"
+#}
 
 resource "azurerm_network_security_group" "wg_client_nsg" {
   name                = "wireguard-client-nsg"
