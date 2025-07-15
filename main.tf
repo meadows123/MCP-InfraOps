@@ -142,14 +142,7 @@ resource "azurerm_subnet" "aci" {
   name                 = "aci-subnet"
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
-  address_prefixes     = ["10.0.1.0/23"]
-  delegation {
-    name = "aci-delegation"
-    service_delegation {
-      name    = "Microsoft.ContainerInstance/containerGroups"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-    }
-  }
+  address_prefixes     = ["10.0.0.0/23"]
 }
 
 # Storage Account for logs and data (cheapest tier)
@@ -1211,7 +1204,7 @@ resource "azurerm_subnet" "wg_client_subnet" {
   name                 = "wireguard-client-subnet"
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.wg_client_vnet.name
-  address_prefixes     = ["10.10.1.0/24"]
+  address_prefixes     = ["10.10.1.0/23"]
 }
 
 #resource "azurerm_network_interface" "wg_client_nic" {
