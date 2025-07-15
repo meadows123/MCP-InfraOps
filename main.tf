@@ -262,6 +262,12 @@ resource "azurerm_container_app" "frontend" {
     }
   }
 
+  registry {
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
+  }
+
   ingress {
     external_enabled = true
     target_port     = 5173
@@ -377,6 +383,12 @@ resource "azurerm_container_app" "orchestrator" {
     }
   }
 
+  registry {
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
+  }
+
   ingress {
     external_enabled = true
     target_port     = 3000
@@ -490,8 +502,9 @@ resource "azurerm_container_app" "pyats_mcp" {
   }
 
   registry {
-    server   = "mcpautomationacr.azurecr.io"
-    identity = null  # Use system-assigned identity
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
   }
 
 
@@ -553,8 +566,9 @@ resource "azurerm_container_app" "servicenow_mcp" {
   }
 
   registry {
-    server   = "mcpautomationacr.azurecr.io"
-    identity = null  # Use system-assigned identity
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -620,8 +634,9 @@ resource "azurerm_container_app" "email_mcp" {
   }
 
   registry {
-    server   = "mcpautomationacr.azurecr.io"
-    identity = null  # Use system-assigned identity
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -677,8 +692,9 @@ resource "azurerm_container_app" "slack_mcp" {
   }
 
   registry {
-    server   = "mcpautomationacr.azurecr.io"
-    identity = null  # Use system-assigned identity
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -729,8 +745,9 @@ resource "azurerm_container_app" "google_maps_mcp" {
   }
 
   registry {
-    server   = "mcpautomationacr.azurecr.io"
-    identity = null  # Use system-assigned identity
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -781,8 +798,9 @@ resource "azurerm_container_app" "google_search_mcp" {
   }
 
   registry {
-    server   = "mcpautomationacr.azurecr.io"
-    identity = null  # Use system-assigned identity
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -828,8 +846,9 @@ resource "azurerm_container_app" "filesystem_mcp" {
   }
 
   registry {
-    server   = "mcpautomationacr.azurecr.io"
-    identity = null  # Use system-assigned identity
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -922,9 +941,10 @@ resource "azurerm_container_app" "quickchart_mcp" {
     }
   }
 
-registry {
-    server   = "mcpautomationacr.azurecr.io"
-    identity = null  # Use system-assigned identity
+  registry {
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -969,9 +989,10 @@ resource "azurerm_container_app" "excalidraw_mcp" {
     }
   }
 
-registry {
-    server   = "mcpautomationacr.azurecr.io"
-    identity = null  # Use system-assigned identity
+  registry {
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -1022,8 +1043,9 @@ resource "azurerm_container_app" "chatgpt_mcp" {
   }
 
   registry {
-    server   = "mcpautomationacr.azurecr.io"
-    identity = null  # Use system-assigned identity
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -1193,19 +1215,19 @@ output "chatgpt_mcp_url" {
  # }
 #}
 
-resource "azurerm_virtual_network" "wg_client_vnet" {
-  name                = "wireguard-client-vnet"
-  address_space       = ["10.10.0.0/16"]
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
-}
+#resource "azurerm_virtual_network" "wg_client_vnet" {
+  #name                = "wireguard-client-vnet"
+  #address_space       = ["10.10.0.0/16"]
+  #location            = azurerm_resource_group.main.location
+  #resource_group_name = azurerm_resource_group.main.name
+#}
 
-resource "azurerm_subnet" "wg_client_subnet" {
-  name                 = "wireguard-client-subnet"
-  resource_group_name  = azurerm_resource_group.main.name
-  virtual_network_name = azurerm_virtual_network.wg_client_vnet.name
-  address_prefixes     = ["10.10.1.0/23"]
-}
+#resource "azurerm_subnet" "wg_client_subnet" {
+  #name                 = "wireguard-client-subnet"
+  #resource_group_name  = azurerm_resource_group.main.name
+  #virtual_network_name = azurerm_virtual_network.wg_client_vnet.name
+  #address_prefixes     = ["10.10.1.0/23"]
+#}
 
 #resource "azurerm_network_interface" "wg_client_nic" {
  # name                = "wireguard-client-nic"
