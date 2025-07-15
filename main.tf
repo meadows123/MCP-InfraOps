@@ -118,9 +118,6 @@ resource "azurerm_container_app_environment" "main" {
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
   
-  # Add Key Vault for Container Apps Environment secrets
-  infrastructure_subnet_id = azurerm_subnet.aci.id
-  
   tags = {
     Environment = var.environment
   }
@@ -143,13 +140,13 @@ resource "azurerm_subnet" "aci" {
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = ["10.0.0.0/23"]
-  delegation {
-    name = "aci-delegation"
-    service_delegation {
-      name    = "Microsoft.ContainerInstance/containerGroups"
-      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-    }
-  }
+  #delegation {
+    #name = "aci-delegation"
+    #service_delegation {
+      #name    = "Microsoft.ContainerInstance/containerGroups"
+     # actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    #}
+  #}
 }
 
 # Storage Account for logs and data (cheapest tier)
