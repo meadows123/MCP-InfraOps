@@ -131,7 +131,7 @@ resource "azurerm_virtual_network" "main" {
   name                = "mcp-vnet"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  address_space       = ["10.0.0.0/20"]
+  address_space       = ["10.0.0.0/16"]
   tags = {
     Environment = var.environment
   }
@@ -142,7 +142,7 @@ resource "azurerm_subnet" "aci" {
   name                 = "aci-subnet"
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
-  address_prefixes     = ["10.1.0.0/23"]
+  address_prefixes     = ["10.0.1.0/23"]
   delegation {
     name = "aci-delegation"
     service_delegation {
