@@ -199,26 +199,26 @@ resource "azurerm_key_vault" "main" {
 data "azurerm_client_config" "current" {}
 
 # Key Vault Access Policy (minimal permissions)
-#resource "azurerm_key_vault_access_policy" "terraform" {
-  #key_vault_id = azurerm_key_vault.main.id
-  #tenant_id    = data.azurerm_client_config.current.tenant_id
-  #object_id    = data.azurerm_client_config.current.object_id
+resource "azurerm_key_vault_access_policy" "terraform" {
+  key_vault_id = azurerm_key_vault.main.id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azurerm_client_config.current.object_id
 
-  #key_permissions = [
-    #"Get", "List"
-  #]
+  key_permissions = [
+    "Get", "List"
+  ]
 
-  #secret_permissions = [
-    #"Get", "List", "Set", "Delete"
- # ]
-#}
+  secret_permissions = [
+    "Get", "List", "Set", "Delete"
+  ]
+}
 
-# Store ACR admin password in Key Vault
-#resource "azurerm_key_vault_secret" "acr_password" {
-  #name         = "acr-password"
-  #value        = azurerm_container_registry.acr.admin_password
-  #key_vault_id = azurerm_key_vault.main.id
-#}
+#Store ACR admin password in Key Vault
+resource "azurerm_key_vault_secret" "acr_password" {
+name         = "acr-password"
+value        = azurerm_container_registry.acr.admin_password
+key_vault_id = azurerm_key_vault.main.id
+}
 
 # WireGuard VPN Client VM (Azure) - Replaces the container app approach
 # The VM will run WireGuard client and connect to your home server
