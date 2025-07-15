@@ -126,6 +126,17 @@ resource "azurerm_container_app_environment" "main" {
   }
 }
 
+# Add ACR password secret to Container App Environment
+resource "azurerm_container_app_environment_secret" "acr_password" {
+  name                         = "acr-password"
+  container_app_environment_id = azurerm_container_app_environment.main.id
+  value                        = azurerm_container_registry.acr.admin_password
+  
+  depends_on = [azurerm_container_registry.acr]
+}
+
+
+
 # Virtual Network
 resource "azurerm_virtual_network" "main" {
   name                = "mcp-vnet"
@@ -265,7 +276,7 @@ resource "azurerm_container_app" "frontend" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -283,7 +294,7 @@ resource "azurerm_container_app" "frontend" {
     Service     = "frontend"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 # Orchestrator Container App (minimal resources)
@@ -386,7 +397,7 @@ resource "azurerm_container_app" "orchestrator" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -404,7 +415,7 @@ resource "azurerm_container_app" "orchestrator" {
     Service     = "orchestrator"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 # Container Apps for MCP Servers (minimal resources)
@@ -440,7 +451,7 @@ resource "azurerm_container_app" "github_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -458,7 +469,7 @@ resource "azurerm_container_app" "github_mcp" {
     Service     = "github-mcp"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 resource "azurerm_container_app" "pyats_mcp" {
@@ -504,7 +515,7 @@ resource "azurerm_container_app" "pyats_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
 
@@ -523,7 +534,7 @@ resource "azurerm_container_app" "pyats_mcp" {
     Service     = "pyats-mcp"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 resource "azurerm_container_app" "servicenow_mcp" {
@@ -568,7 +579,7 @@ resource "azurerm_container_app" "servicenow_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -586,7 +597,7 @@ resource "azurerm_container_app" "servicenow_mcp" {
     Service     = "servicenow-mcp"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 resource "azurerm_container_app" "email_mcp" {
@@ -636,7 +647,7 @@ resource "azurerm_container_app" "email_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -654,7 +665,7 @@ resource "azurerm_container_app" "email_mcp" {
     Service     = "email-mcp"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 resource "azurerm_container_app" "slack_mcp" {
@@ -694,7 +705,7 @@ resource "azurerm_container_app" "slack_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -712,7 +723,7 @@ resource "azurerm_container_app" "slack_mcp" {
     Service     = "slack-mcp"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 resource "azurerm_container_app" "google_maps_mcp" {
@@ -747,7 +758,7 @@ resource "azurerm_container_app" "google_maps_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -765,7 +776,7 @@ resource "azurerm_container_app" "google_maps_mcp" {
     Service     = "google-maps-mcp"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 resource "azurerm_container_app" "google_search_mcp" {
@@ -800,7 +811,7 @@ resource "azurerm_container_app" "google_search_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -818,7 +829,7 @@ resource "azurerm_container_app" "google_search_mcp" {
     Service     = "google-search-mcp"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 resource "azurerm_container_app" "filesystem_mcp" {
@@ -848,7 +859,7 @@ resource "azurerm_container_app" "filesystem_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -866,7 +877,7 @@ resource "azurerm_container_app" "filesystem_mcp" {
     Service     = "filesystem-mcp"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 resource "azurerm_container_app" "sequential_thinking_mcp" {
@@ -906,7 +917,7 @@ resource "azurerm_container_app" "sequential_thinking_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   tags = {
@@ -914,7 +925,7 @@ resource "azurerm_container_app" "sequential_thinking_mcp" {
     Service     = "sequential-thinking-mcp"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 resource "azurerm_container_app" "quickchart_mcp" {
@@ -944,7 +955,7 @@ resource "azurerm_container_app" "quickchart_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -962,7 +973,7 @@ resource "azurerm_container_app" "quickchart_mcp" {
     Service     = "quickchart-mcp"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 resource "azurerm_container_app" "excalidraw_mcp" {
@@ -992,7 +1003,7 @@ resource "azurerm_container_app" "excalidraw_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -1010,7 +1021,7 @@ resource "azurerm_container_app" "excalidraw_mcp" {
     Service     = "excalidraw-mcp"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 resource "azurerm_container_app" "chatgpt_mcp" {
@@ -1045,7 +1056,7 @@ resource "azurerm_container_app" "chatgpt_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password = azurerm_container_registry.acr.admin_password
+    password_secret_name = "acr-password"
   }
 
   ingress {
@@ -1063,7 +1074,7 @@ resource "azurerm_container_app" "chatgpt_mcp" {
     Service     = "chatgpt-mcp"
   }
   
-  depends_on = [azurerm_key_vault_secret.acr_password]
+  depends_on = [azurerm_container_app_environment_secret.acr_password]
 }
 
 # API Management for MCP Server coordination
