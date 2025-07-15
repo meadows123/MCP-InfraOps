@@ -118,6 +118,9 @@ resource "azurerm_container_app_environment" "main" {
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
   
+  # Add Key Vault for Container Apps Environment secrets
+  infrastructure_subnet_id = azurerm_subnet.aci.id
+  
   tags = {
     Environment = var.environment
   }
@@ -139,14 +142,14 @@ resource "azurerm_subnet" "aci" {
   name                 = "aci-subnet"
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
-  address_prefixes     = ["10.0.0.0/23"]
-  #delegation {
-    #name = "aci-delegation"
-    #service_delegation {
-      #name    = "Microsoft.ContainerInstance/containerGroups"
-     # actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-    #}
-  #}
+  address_prefixes     = ["10.0.1.0/24"]
+  delegation {
+    name = "aci-delegation"
+    service_delegation {
+      name    = "Microsoft.ContainerInstance/containerGroups"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }
+  }
 }
 
 # Storage Account for logs and data (cheapest tier)
@@ -205,19 +208,21 @@ resource "azurerm_key_vault_access_policy" "terraform" {
   object_id    = data.azurerm_client_config.current.object_id
 
   key_permissions = [
-    "Get", "List", "Create", "Delete"
+    "Get", "List"
   ]
 
   secret_permissions = [
-    "Get", "List", "Set", "Delete", "Recover"
+    "Get", "List", "Set"
   ]
 }
 
-##Store ACR admin password in Key Vault
+# Store ACR admin password in Key Vault
 resource "azurerm_key_vault_secret" "acr_password" {
-name         = "acr-password"
-value        = azurerm_container_registry.acr.admin_password
-key_vault_id = azurerm_key_vault.main.id
+  name         = "acr-password"
+  value        = azurerm_container_registry.acr.admin_password
+  key_vault_id = azurerm_key_vault.main.id
+  
+  depends_on = [azurerm_container_registry.acr, azurerm_key_vault_access_policy.terraform]
 }
 
 # WireGuard VPN Client VM (Azure) - Replaces the container app approach
@@ -278,6 +283,8 @@ resource "azurerm_container_app" "frontend" {
     Environment = var.environment
     Service     = "frontend"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 # Orchestrator Container App (minimal resources)
@@ -391,6 +398,8 @@ resource "azurerm_container_app" "orchestrator" {
     Environment = var.environment
     Service     = "orchestrator"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 # Container Apps for MCP Servers (minimal resources)
@@ -443,6 +452,8 @@ resource "azurerm_container_app" "github_mcp" {
     Environment = var.environment
     Service     = "github-mcp"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 resource "azurerm_container_app" "pyats_mcp" {
@@ -486,9 +497,8 @@ resource "azurerm_container_app" "pyats_mcp" {
   }
 
   registry {
-    server   = azurerm_container_registry.acr.login_server
-    username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
 
@@ -506,6 +516,8 @@ resource "azurerm_container_app" "pyats_mcp" {
     Environment = var.environment
     Service     = "pyats-mcp"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 resource "azurerm_container_app" "servicenow_mcp" {
@@ -548,9 +560,8 @@ resource "azurerm_container_app" "servicenow_mcp" {
   }
 
   registry {
-    server   = azurerm_container_registry.acr.login_server
-    username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -567,6 +578,8 @@ resource "azurerm_container_app" "servicenow_mcp" {
     Environment = var.environment
     Service     = "servicenow-mcp"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 resource "azurerm_container_app" "email_mcp" {
@@ -614,9 +627,8 @@ resource "azurerm_container_app" "email_mcp" {
   }
 
   registry {
-    server   = azurerm_container_registry.acr.login_server
-    username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -633,6 +645,8 @@ resource "azurerm_container_app" "email_mcp" {
     Environment = var.environment
     Service     = "email-mcp"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 resource "azurerm_container_app" "slack_mcp" {
@@ -670,9 +684,8 @@ resource "azurerm_container_app" "slack_mcp" {
   }
 
   registry {
-    server   = azurerm_container_registry.acr.login_server
-    username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -689,6 +702,8 @@ resource "azurerm_container_app" "slack_mcp" {
     Environment = var.environment
     Service     = "slack-mcp"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 resource "azurerm_container_app" "google_maps_mcp" {
@@ -721,9 +736,8 @@ resource "azurerm_container_app" "google_maps_mcp" {
   }
 
   registry {
-    server   = azurerm_container_registry.acr.login_server
-    username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -740,6 +754,8 @@ resource "azurerm_container_app" "google_maps_mcp" {
     Environment = var.environment
     Service     = "google-maps-mcp"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 resource "azurerm_container_app" "google_search_mcp" {
@@ -772,9 +788,8 @@ resource "azurerm_container_app" "google_search_mcp" {
   }
 
   registry {
-    server   = azurerm_container_registry.acr.login_server
-    username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -791,6 +806,8 @@ resource "azurerm_container_app" "google_search_mcp" {
     Environment = var.environment
     Service     = "google-search-mcp"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 resource "azurerm_container_app" "filesystem_mcp" {
@@ -818,9 +835,8 @@ resource "azurerm_container_app" "filesystem_mcp" {
   }
 
   registry {
-    server   = azurerm_container_registry.acr.login_server
-    username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -837,6 +853,8 @@ resource "azurerm_container_app" "filesystem_mcp" {
     Environment = var.environment
     Service     = "filesystem-mcp"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 resource "azurerm_container_app" "sequential_thinking_mcp" {
@@ -883,6 +901,8 @@ resource "azurerm_container_app" "sequential_thinking_mcp" {
     Environment = var.environment
     Service     = "sequential-thinking-mcp"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 resource "azurerm_container_app" "quickchart_mcp" {
@@ -910,9 +930,8 @@ resource "azurerm_container_app" "quickchart_mcp" {
   }
 
 registry {
-    server   = azurerm_container_registry.acr.login_server
-    username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -929,6 +948,8 @@ registry {
     Environment = var.environment
     Service     = "quickchart-mcp"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 resource "azurerm_container_app" "excalidraw_mcp" {
@@ -956,9 +977,8 @@ resource "azurerm_container_app" "excalidraw_mcp" {
   }
 
 registry {
-    server   = azurerm_container_registry.acr.login_server
-    username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -975,6 +995,8 @@ registry {
     Environment = var.environment
     Service     = "excalidraw-mcp"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 resource "azurerm_container_app" "chatgpt_mcp" {
@@ -1007,9 +1029,8 @@ resource "azurerm_container_app" "chatgpt_mcp" {
   }
 
   registry {
-    server   = azurerm_container_registry.acr.login_server
-    username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    server   = "mcpautomationacr.azurecr.io"
+    identity = null  # Use system-assigned identity
   }
 
   ingress {
@@ -1026,6 +1047,8 @@ resource "azurerm_container_app" "chatgpt_mcp" {
     Environment = var.environment
     Service     = "chatgpt-mcp"
   }
+  
+  depends_on = [azurerm_key_vault_secret.acr_password]
 }
 
 # API Management for MCP Server coordination
@@ -1064,9 +1087,9 @@ output "orchestrator_url" {
   value = "https://${azurerm_container_app.orchestrator.latest_revision_fqdn}"
 }
 
-#output "wireguard_vpn_client_name" {
-  #value = azurerm_linux_virtual_machine.wireguard_client.name
-#}
+output "wireguard_vpn_client_name" {
+  value = azurerm_linux_virtual_machine.wireguard_client.name
+}
 
 output "wireguard_vpn_client_ip" {
   value = "10.0.0.2"
@@ -1076,9 +1099,9 @@ output "wireguard_vpn_client_ip" {
   #value = azurerm_public_ip.wg_client_public_ip.ip_address
 #}
 
-#output "wireguard_vpn_client_ssh_command" {
- # value = "ssh azureuser@${azurerm_public_ip.wg_client_public_ip.ip_address}"
-#}
+output "wireguard_vpn_client_ssh_command" {
+  value = "ssh azureuser@${azurerm_public_ip.wg_client_public_ip.ip_address}"
+}
 
 output "key_vault_uri" {
   value = azurerm_key_vault.main.vault_uri
@@ -1232,8 +1255,8 @@ resource "azurerm_network_security_group" "wg_client_nsg" {
   # Outbound is allowed by default
 }
 
-#resource "azurerm_network_interface_security_group_association" "wg_client_nic_nsg" {
- # network_interface_id      = azurerm_network_interface.wg_client_nic.id
- # network_security_group_id = azurerm_network_security_group.wg_client_nsg.id
-#}
+resource "azurerm_network_interface_security_group_association" "wg_client_nic_nsg" {
+  network_interface_id      = azurerm_network_interface.wg_client_nic.id
+  network_security_group_id = azurerm_network_security_group.wg_client_nsg.id
+}
 # trigger from root
