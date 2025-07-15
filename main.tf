@@ -121,16 +121,15 @@ resource "azurerm_container_app_environment" "main" {
   # Add Key Vault for Container Apps Environment secrets
   infrastructure_subnet_id = azurerm_subnet.aci.id
   
+  # Add ACR password secret to Container App Environment
+  secrets {
+    name  = "acr-password"
+    value = azurerm_container_registry.acr.admin_password
+  }
+  
   tags = {
     Environment = var.environment
   }
-}
-
-# Add ACR password secret to Container App Environment
-resource "azurerm_container_app_environment_secret" "acr_password" {
-  name                         = "acr-password"
-  container_app_environment_id = azurerm_container_app_environment.main.id
-  value                        = azurerm_container_registry.acr.admin_password
   
   depends_on = [azurerm_container_registry.acr]
 }
@@ -294,7 +293,7 @@ resource "azurerm_container_app" "frontend" {
     Service     = "frontend"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 # Orchestrator Container App (minimal resources)
@@ -415,7 +414,7 @@ resource "azurerm_container_app" "orchestrator" {
     Service     = "orchestrator"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 # Container Apps for MCP Servers (minimal resources)
@@ -469,7 +468,7 @@ resource "azurerm_container_app" "github_mcp" {
     Service     = "github-mcp"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "pyats_mcp" {
@@ -534,7 +533,7 @@ resource "azurerm_container_app" "pyats_mcp" {
     Service     = "pyats-mcp"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "servicenow_mcp" {
@@ -597,7 +596,7 @@ resource "azurerm_container_app" "servicenow_mcp" {
     Service     = "servicenow-mcp"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "email_mcp" {
@@ -665,7 +664,7 @@ resource "azurerm_container_app" "email_mcp" {
     Service     = "email-mcp"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "slack_mcp" {
@@ -723,7 +722,7 @@ resource "azurerm_container_app" "slack_mcp" {
     Service     = "slack-mcp"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "google_maps_mcp" {
@@ -776,7 +775,7 @@ resource "azurerm_container_app" "google_maps_mcp" {
     Service     = "google-maps-mcp"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "google_search_mcp" {
@@ -829,7 +828,7 @@ resource "azurerm_container_app" "google_search_mcp" {
     Service     = "google-search-mcp"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "filesystem_mcp" {
@@ -877,7 +876,7 @@ resource "azurerm_container_app" "filesystem_mcp" {
     Service     = "filesystem-mcp"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "sequential_thinking_mcp" {
@@ -925,7 +924,7 @@ resource "azurerm_container_app" "sequential_thinking_mcp" {
     Service     = "sequential-thinking-mcp"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "quickchart_mcp" {
@@ -973,7 +972,7 @@ resource "azurerm_container_app" "quickchart_mcp" {
     Service     = "quickchart-mcp"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "excalidraw_mcp" {
@@ -1021,7 +1020,7 @@ resource "azurerm_container_app" "excalidraw_mcp" {
     Service     = "excalidraw-mcp"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 resource "azurerm_container_app" "chatgpt_mcp" {
@@ -1074,7 +1073,7 @@ resource "azurerm_container_app" "chatgpt_mcp" {
     Service     = "chatgpt-mcp"
   }
   
-  depends_on = [azurerm_container_app_environment_secret.acr_password]
+  depends_on = [azurerm_container_app_environment.main]
 }
 
 # API Management for MCP Server coordination
