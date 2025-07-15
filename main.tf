@@ -214,11 +214,11 @@ data "azurerm_client_config" "current" {}
 #}
 
 # Store ACR admin password in Key Vault
-resource "azurerm_key_vault_secret" "acr_password" {
-  name         = "acr-password"
-  value        = azurerm_container_registry.acr.admin_password
-  key_vault_id = azurerm_key_vault.main.id
-}
+#resource "azurerm_key_vault_secret" "acr_password" {
+  #name         = "acr-password"
+  #value        = azurerm_container_registry.acr.admin_password
+  #key_vault_id = azurerm_key_vault.main.id
+#}
 
 # WireGuard VPN Client VM (Azure) - Replaces the container app approach
 # The VM will run WireGuard client and connect to your home server
