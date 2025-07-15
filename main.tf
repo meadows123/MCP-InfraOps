@@ -118,6 +118,9 @@ resource "azurerm_container_app_environment" "main" {
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
   
+  # Add Key Vault for Container Apps Environment secrets
+  infrastructure_subnet_id = azurerm_subnet.aci.id
+  
   tags = {
     Environment = var.environment
   }
@@ -866,9 +869,10 @@ resource "azurerm_container_app" "sequential_thinking_mcp" {
     }
   }
 
-    registry {
-    server   = "mcpautomationacr.azurecr.io"
-    identity = null  # Use system-assigned identity
+  registry {
+    server   = azurerm_container_registry.acr.login_server
+    username = azurerm_container_registry.acr.admin_username
+    password_secret_name = "acr-password"
   }
 
   tags = {
