@@ -265,7 +265,7 @@ resource "azurerm_container_app" "frontend" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   ingress {
@@ -386,7 +386,7 @@ resource "azurerm_container_app" "orchestrator" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   ingress {
@@ -440,7 +440,7 @@ resource "azurerm_container_app" "github_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   ingress {
@@ -504,7 +504,7 @@ resource "azurerm_container_app" "pyats_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
 
@@ -568,7 +568,7 @@ resource "azurerm_container_app" "servicenow_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   ingress {
@@ -636,7 +636,7 @@ resource "azurerm_container_app" "email_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   ingress {
@@ -694,7 +694,7 @@ resource "azurerm_container_app" "slack_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   ingress {
@@ -747,7 +747,7 @@ resource "azurerm_container_app" "google_maps_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   ingress {
@@ -800,7 +800,7 @@ resource "azurerm_container_app" "google_search_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   ingress {
@@ -848,7 +848,7 @@ resource "azurerm_container_app" "filesystem_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   ingress {
@@ -906,7 +906,7 @@ resource "azurerm_container_app" "sequential_thinking_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   tags = {
@@ -944,7 +944,7 @@ resource "azurerm_container_app" "quickchart_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   ingress {
@@ -992,7 +992,7 @@ resource "azurerm_container_app" "excalidraw_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   ingress {
@@ -1045,7 +1045,7 @@ resource "azurerm_container_app" "chatgpt_mcp" {
   registry {
     server   = azurerm_container_registry.acr.login_server
     username = azurerm_container_registry.acr.admin_username
-    password_secret_name = "acr-password"
+    password = azurerm_container_registry.acr.admin_password
   }
 
   ingress {
