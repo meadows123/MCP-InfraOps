@@ -205,7 +205,7 @@ resource "azurerm_key_vault_access_policy" "terraform" {
   object_id    = data.azurerm_client_config.current.object_id
 
   key_permissions = [
-    "Get", "List", "Set", "Delete"
+    "Get", "List", "Create", "Delete"
   ]
 
   secret_permissions = [
